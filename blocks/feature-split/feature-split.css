@@ -1,23 +1,24 @@
-/* Feature Split Block */
+/* Feature Split Block — section background */
+.section.feature-split-container {
+  background-color: #f5edd6;
+  background-image: url('/content/images/texture-beige.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .feature-split-wrapper {
   max-width: 100% !important;
   padding: 0 !important;
 }
 
 .feature-split {
-  --fs-bg-color: #f5edd6;
-  --fs-text-color: rgb(43, 16, 10);
-  --fs-btn-bg: rgb(43, 16, 10);
-  --fs-btn-color: rgb(255, 251, 238);
-  --fs-padding: 70px 0;
+  --fs-text-color: rgb(43 16 10);
+  --fs-btn-bg: rgb(43 16 10);
+  --fs-btn-color: rgb(255 251 238);
 
-  background-color: var(--fs-bg-color);
-  background-image: url('/drafts/images/texture-beige.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   color: var(--fs-text-color);
-  padding: var(--fs-padding);
+  padding: 70px 0;
 }
 
 .feature-split > div {

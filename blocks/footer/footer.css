@@ -1,8 +1,8 @@
 footer {
-  --footer-text: rgb(43, 16, 10);
+  --footer-text: rgb(43 16 10);
 
-  background-color: rgb(49, 50, 51);
-  background-image: url('/drafts/images/mountains.jpg');
+  background-color: rgb(49 50 51);
+  background-image: url('/content/images/mountains.jpg');
   background-size: cover;
   background-position: center center;
   color: var(--footer-text);

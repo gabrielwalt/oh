@@ -1,14 +1,10 @@
-/* Recipe Cards Block */
-.recipe-cards {
-  --rc-bg: rgb(43, 16, 10);
-  --rc-text: rgb(255, 251, 238);
-  --rc-card-bg: rgb(255, 241, 199);
-  --rc-card-title-color: rgb(255, 241, 199);
-  --rc-meta-color: rgb(43, 16, 10);
-  --rc-btn-bg: rgb(255, 212, 0);
-  --rc-btn-color: rgb(43, 16, 10);
-  --rc-gap: 22px;
-  --rc-card-content-padding: 24px;
+/* Section background */
+.section.recipe-cards-container {
+  background-color: rgb(43 16 10);
+  background-image: url('/content/images/texture-darkbrown.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* Full-width section override */
@@ -17,18 +13,20 @@
   padding: 0 !important;
 }
 
-/* Section background */
-.recipe-cards-wrapper .section {
-  background: none;
-}
-
+/* Recipe Cards Block */
 .recipe-cards {
-  background-color: var(--rc-bg);
-  background-image: url('/drafts/images/texture-darkbrown.jpg');
-  background-size: cover;
-  background-repeat: repeat;
+  --rc-bg: rgb(43 16 10);
+  --rc-text: rgb(255 251 238);
+  --rc-card-bg: rgb(255 241 199);
+  --rc-card-title-color: rgb(255 241 199);
+  --rc-meta-color: rgb(43 16 10);
+  --rc-btn-bg: rgb(255 212 0);
+  --rc-btn-color: rgb(43 16 10);
+  --rc-gap: 22px;
+  --rc-card-content-padding: 24px;
+
   color: var(--rc-text);
-  padding: 48px 32px;
+  padding: 80px 32px;
   text-align: center;
 }
 
@@ -109,7 +107,7 @@
 /* Card content */
 .recipe-cards .card-content {
   background-color: var(--rc-card-bg);
-  background-image: url('/drafts/images/texture-lightbeige.jpg');
+  background-image: url('/content/images/texture-lightbeige.jpg');
   background-size: cover;
   padding: 16px 16px 20px;
   text-align: left;
@@ -121,7 +119,7 @@
   font-size: 18px;
   font-weight: 400;
   color: var(--rc-meta-color);
-  margin: 0 0 6px 0;
+  margin: 0 0 6px;
   line-height: 1.2;
 }
 
@@ -171,15 +169,17 @@ main .recipe-cards .button-container {
 }
 
 /* Responsive */
-@media (max-width: 899px) {
+@media (width <= 899px) {
   .recipe-cards .cards-grid {
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .recipe-cards .card {
     width: 100%;
-    max-width: 400px;
+    max-width: none;
+    min-width: 0;
   }
 
   .recipe-cards .cta-button {
