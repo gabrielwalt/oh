@@ -64,7 +64,7 @@ drafts/                       — Slicc-generated source files
 | Social Feed | `.section.social-feed-container` | `texture-lightbeige.jpg` |
 | Footer | `footer` element | `mountains.jpg` |
 
-All background images stored in `content/images/`.
+All background/texture images stored in `styles/images/` (design assets in the code repo, not content).
 
 ## CSS Design Tokens (`styles/brand.css` + `styles/styles.css`)
 

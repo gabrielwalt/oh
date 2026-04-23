@@ -1,7 +1,7 @@
 /* Feature Split Block — section background */
 .section.feature-split-container {
   background-color: #f5edd6;
-  background-image: url('/content/images/texture-beige.jpg');
+  background-image: url('/styles/images/texture-beige.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
