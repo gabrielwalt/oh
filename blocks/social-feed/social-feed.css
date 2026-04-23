@@ -50,7 +50,7 @@
 
 .social-feed > div:nth-child(2) > div {
   overflow: hidden;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
 }
 
 .social-feed > div:nth-child(2) > div a {
