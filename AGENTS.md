@@ -37,5 +37,5 @@ This is an **AEM Edge Delivery Services** site for **Grown in Idaho** (https://g
 - Slicc projects: content is already structured — don't re-run migration workflows, just wire up content files
 - Slicc setup only needs index.plain.html, nav.plain.html, footer.plain.html + images — don't import preview HTML files
 - NEVER store content files (nav, footer, pages) in the code repo root — content belongs in the CMS, not in git. The `content/` folder is for local dev only.
-- Nav/footer are authored as CMS documents at `/nav` and `/footer` in production (da.live). For local dev, the `content/` folder has copies but they should NOT be duplicated to the project root.
+- Nav/footer resolution: use `getContentRoot()` in scripts.js so header/footer blocks resolve fragment paths relative to the current page directory. No root-level copies, no meta tag overrides needed.
 - NEVER create preview HTML files (`*-preview.html`) — they are unnecessary artifacts

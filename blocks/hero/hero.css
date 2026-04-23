@@ -6,7 +6,6 @@
 
 .hero {
   position: relative;
-  min-height: 793px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -34,6 +33,12 @@
   object-fit: cover;
 }
 
+.hero p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
 .hero > div > div:first-child p {
   margin: 0;
   height: 100%;
@@ -57,13 +62,6 @@
   text-transform: uppercase;
   color: #fffbee;
   margin: 0 0 16px;
-}
-
-.hero p {
-  font-size: 18px;
-  line-height: 1.5;
-  color: #fffbee;
-  margin: 0 0 12px;
 }
 
 /* Primary button (strong-wrapped) — solid yellow */
@@ -107,10 +105,6 @@ main .hero .button-wrapper {
 
 /* Mobile */
 @media (width < 900px) {
-  .hero {
-    min-height: 500px;
-  }
-
   .hero > div > div:last-child {
     max-width: 100%;
     padding: 200px 24px 60px;

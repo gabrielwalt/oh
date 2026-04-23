@@ -71,22 +71,43 @@ For nav and footer:
 
 **Do NOT create or copy preview HTML files (`*-preview.html`). They are Slicc development artifacts and not needed.**
 
-### Step 4: Set up root-level nav and footer
+### Step 4: Add `getContentRoot()` to scripts.js and update header/footer blocks
 
-The AEM header/footer blocks default to fetching `/nav` and `/footer` (root level).
-The EDS live environment (`.aem.live`) requires nav and footer to be **CMS-authored documents**
-at the root path — the `.plain.html` API endpoint only works for CMS documents, not static files in git.
+Nav and footer are **content, not code** — they must never be stored in the code repo. Instead, add a
+`getContentRoot()` helper to `scripts.js` that resolves fragment paths relative to the current page's
+directory. This way nav/footer resolve correctly everywhere — local dev and production — without
+root-level file copies or meta tag overrides.
 
-For **local development**, copy the files to the project root so the dev server can find them:
+**Add to `scripts.js`** (before `buildHeroBlock`):
 
-```bash
-cp content/nav.plain.html nav.plain.html
-cp content/footer.plain.html footer.plain.html
+```js
+export function getContentRoot() {
+  const { pathname } = window.location;
+  const segments = pathname.split('/').filter(Boolean);
+  if (segments.length > 1) {
+    return `/${segments.slice(0, -1).join('/')}`;
+  }
+  return '';
+}
 ```
 
-For **production** (da.live or SharePoint), author the nav and footer as CMS documents at `/nav` and `/footer`.
-Do NOT add `<meta name="nav">` or `<meta name="footer">` to `head.html` — the default `/nav` and `/footer` paths
-work correctly on both local dev and production when the documents exist at the root level.
+**Update `blocks/header/header.js`:**
+1. Add import: `import { getContentRoot } from '../../scripts/scripts.js';`
+2. Change nav path resolution to: `const navPath = navMeta ? new URL(navMeta, window.location).pathname : \`\${getContentRoot()}/nav\`;`
+
+**Update `blocks/footer/footer.js`:**
+1. Add import: `import { getContentRoot } from '../../scripts/scripts.js';`
+2. Change footer path resolution to: `const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : \`\${getContentRoot()}/footer\`;`
+
+**How it works:**
+- Page at `/content/` → fetches `/content/nav.plain.html` and `/content/footer.plain.html`
+- Page at `/content/about` → fetches `/content/nav.plain.html` and `/content/footer.plain.html`
+- Page at `/` (production) → fetches `/nav.plain.html` and `/footer.plain.html` from the CMS
+
+**Do NOT:**
+- Copy nav/footer files to the project root
+- Add `<meta name="nav">` or `<meta name="footer">` tags to head.html or preview files
+- Store any content files in the code repo root
 
 ### Step 5: Verify
 
@@ -101,7 +122,7 @@ work correctly on both local dev and production when the documents exist at the 
 - **Never modify block HTML structure** — Slicc has already styled the blocks; changing structure breaks styling
 - **Only change image paths** — `/drafts/images/` → `/content/images/`
 - **Don't import preview files** — only `index.plain.html`, `nav.plain.html`, and `footer.plain.html` are needed
-- **Nav/footer at root level** — copy to project root for local dev; author as CMS documents at `/nav` and `/footer` for production
+- **Nav/footer are content, not code** — never store them in the code repo root. Use `getContentRoot()` so header/footer blocks resolve paths dynamically
 - **The assembled page becomes `index.plain.html`** — the homepage lives at `content/index.plain.html`
 - **Don't run the full migration workflow** — Slicc already did the block decomposition and styling. Just copy and wire up the content.
 
@@ -112,7 +133,8 @@ work correctly on both local dev and production when the documents exist at the 
 - [ ] content/index.plain.html created from drafts/home.plain.html (paths fixed)
 - [ ] content/nav.plain.html created from drafts/nav.plain.html (paths fixed)
 - [ ] content/footer.plain.html created from drafts/footer.plain.html (paths fixed)
-- [ ] nav.plain.html at project root (copy of content/nav.plain.html)
-- [ ] footer.plain.html at project root (copy of content/footer.plain.html)
+- [ ] getContentRoot() added to scripts.js
+- [ ] header.js updated to use getContentRoot() for nav path
+- [ ] footer.js updated to use getContentRoot() for footer path
 - [ ] Preview verified — header, blocks, footer all render
 ```

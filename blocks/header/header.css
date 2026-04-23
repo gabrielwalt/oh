@@ -33,7 +33,7 @@ header nav[aria-expanded='true'] {
 
 @media (width >= 900px) {
   header .nav-wrapper {
-    position: relative;
+    position: fixed;
   }
 
   header nav {
@@ -154,6 +154,8 @@ header .nav-brand {
 header nav .nav-brand img {
   width: 210px;
   height: auto;
+  position: relative;
+  top: 12px;
 }
 
 /* sections */
