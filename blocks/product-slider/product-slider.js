@@ -1,3 +1,6 @@
+const CHEVRON_LEFT = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm81 281.5l-134.2 124c-7.7 7.1-19.8 6.6-26.9-1.1s-6.6-19.8 1.1-26.9L291.2 256 177 134.5c-7.7-7.1-8.2-19.2-1.1-26.9s19.2-8.2 26.9-1.1l134.2 124c3.9 3.6 6.1 8.7 6.1 14 0 5.2-2.2 10.3-6.1 13.9z"/></svg>';
+const CHEVRON_RIGHT = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm81 281.5l-134.2 124c-7.7 7.1-19.8 6.6-26.9-1.1s-6.6-19.8 1.1-26.9L291.2 256 177 134.5c-7.7-7.1-8.2-19.2-1.1-26.9s19.2-8.2 26.9-1.1l134.2 124c3.9 3.6 6.1 8.7 6.1 14 0 5.2-2.2 10.3-6.1 13.9z"/></svg>';
+
 export default async function decorate(block) {
   const rows = [...block.children];
 
@@ -40,20 +43,25 @@ export default async function decorate(block) {
     track.appendChild(card);
   });
 
-  // Clear block and set up slider
+  // Clear block and set up slider with viewport wrapper
   block.textContent = '';
-  block.appendChild(track);
 
-  // Add navigation arrows
+  const viewport = document.createElement('div');
+  viewport.className = 'slider-viewport';
+  viewport.appendChild(track);
+  block.appendChild(viewport);
+
+  // Add navigation arrows with SVG chevron-circle icons
   const prevBtn = document.createElement('button');
   prevBtn.className = 'slider-nav prev';
   prevBtn.setAttribute('aria-label', 'Previous');
-  prevBtn.innerHTML = '&#10094;';
+  prevBtn.innerHTML = CHEVRON_LEFT;
+  prevBtn.querySelector('svg').style.transform = 'scaleX(-1)';
 
   const nextBtn = document.createElement('button');
   nextBtn.className = 'slider-nav next';
   nextBtn.setAttribute('aria-label', 'Next');
-  nextBtn.innerHTML = '&#10095;';
+  nextBtn.innerHTML = CHEVRON_RIGHT;
 
   block.appendChild(prevBtn);
   block.appendChild(nextBtn);
@@ -77,13 +85,13 @@ export default async function decorate(block) {
     if (currentIndex < 0) currentIndex = 0;
 
     const gap = 22; // matches --slider-gap
-    const cardWidth = (track.offsetWidth - gap * (visibleCount - 1)) / visibleCount;
+    const cardWidth = (viewport.offsetWidth - gap * (visibleCount - 1)) / visibleCount;
     const offset = currentIndex * (cardWidth + gap);
     track.style.transform = `translateX(-${offset}px)`;
 
-    prevBtn.style.opacity = currentIndex === 0 ? '0.4' : '1';
+    prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
     prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
-    nextBtn.style.opacity = currentIndex >= maxIndex ? '0.4' : '1';
+    nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
     nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
   }
 
