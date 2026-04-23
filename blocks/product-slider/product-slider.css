@@ -44,7 +44,10 @@
   position: relative;
   overflow: visible;
   text-align: center;
-  padding: 0 48px;
+  padding: 0 56px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .product-slider .slider-viewport {
@@ -70,6 +73,10 @@
 
 .product-slider .product-card:hover {
   text-decoration: none;
+}
+
+.product-slider .product-card .card-image {
+  padding: 24px 24px 0;
 }
 
 .product-slider .product-card .card-image img {
@@ -128,41 +135,51 @@
   fill: var(--slider-card-bg);
 }
 
-/* CTA buttons below slider */
+/* CTA buttons below slider — stacked vertically, centered */
 .section:has(.product-slider) .default-content-wrapper:last-child {
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   padding-top: 32px;
 }
 
 .section:has(.product-slider) .button-wrapper {
-  display: inline-block !important;
+  display: block !important;
   margin: 0;
+  width: 300px;
 }
 
-main .product-slider-wrapper ~ .button-wrapper a.button:any-link,
 main .section:has(.product-slider) .button-wrapper a.button:any-link {
-  display: inline-block;
-  background: transparent;
-  border: 2px solid rgb(43 16 10);
+  display: block;
+  border: 3px solid rgb(43 16 10);
   border-radius: 0;
-  color: rgb(43 16 10);
   font-family: var(--heading-font-family, sans-serif);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 10px 32px;
-  letter-spacing: 1px;
+  padding: 8px 12px;
   text-align: center;
   white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Primary CTA — filled dark brown */
+main .section:has(.product-slider) .button-wrapper:first-child a.button:any-link {
+  background: rgb(43 16 10);
+  color: rgb(255 251 238);
+}
+
+/* Secondary CTA — outline */
+main .section:has(.product-slider) .button-wrapper:last-child a.button:any-link {
+  background: transparent;
+  color: rgb(43 16 10);
 }
 
 main .section:has(.product-slider) .button-wrapper a.button:any-link:hover {
-  background: rgb(43 16 10);
-  color: #fff;
+  opacity: 0.85;
 }
 
 /* Responsive: single card on mobile */
