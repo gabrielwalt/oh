@@ -6,6 +6,27 @@
 - **Original site:** https://growninidaho.com/
 - **Brand:** Grown in Idaho® — a Lamb Weston Holdings brand
 - **Product focus:** Frozen Idaho potato products (fries, tots, hash browns)
+- **Origin:** Slicc (Chrome extension) — generated blocks and content from growninidaho.com
+- **Slicc setup status:** Complete — content wired up, backgrounds applied, blocks critiqued and improved
+
+## Project Structure
+```
+blocks/{name}/{name}.js|css   — Block implementations
+styles/styles.css             — Global styles + CSS tokens (imports brand.css)
+styles/brand.css              — Brand design tokens
+styles/lazy-styles.css        — Post-LCP styles
+styles/fonts.css              — Font definitions
+scripts/aem.js                — Core AEM lib (NEVER MODIFY)
+scripts/scripts.js            — Page decoration entry point
+scripts/delayed.js            — Delayed loading
+content/                      — Content .plain.html files + images (local dev only)
+drafts/                       — Slicc-generated source files
+```
+
+## Deployment
+- **Preview:** `https://main--{repo}--{owner}.aem.page/`
+- **Live:** `https://main--{repo}--{owner}.aem.live/`
+- **Branch:** `https://{branch}--{repo}--{owner}.aem.page/`
 
 ## Content Pages
 
@@ -15,7 +36,7 @@
 | Header | `content/nav.plain.html` | (loaded via head.html meta tag) |
 | Footer | `content/footer.plain.html` | (loaded via head.html meta tag) |
 
-**Nav/Footer routing:** `head.html` has `<meta name="nav" content="/content/nav">` and `<meta name="footer" content="/content/footer">`. No root-level copies.
+**Nav/Footer routing:** Header/footer blocks default to `/nav` and `/footer` (root level). Nav and footer are content — they live in the CMS (da.live), never in the code repo. Local dev uses `content/nav.plain.html` and `content/footer.plain.html` for preview only.
 
 ## Blocks
 
@@ -85,13 +106,15 @@ All background images stored in `content/images/`.
 | Content max-width | `1200px` (inside blocks) |
 
 ## scripts.js Customizations
+- `getContentRoot()` — resolves nav/footer paths relative to the current page's directory (e.g. `/content/about` → `/content`). Used by header.js and footer.js so fragments resolve without root-level copies or meta tag overrides.
 - Custom `decorateButtons()` — requires `<strong>` (primary) or `<em>` (secondary) wrapping for buttonization; bare links are not converted
 - `buildHeroBlock()` — auto-blocks hero from h1+picture, but skips if already inside `.hero`
 - Fragment auto-loading for `/fragments/` links
 
-## Project Setup
-- **Origin:** Slicc (Chrome extension) — generated blocks and content from growninidaho.com
-- **Slicc setup status:** Complete — content wired up, backgrounds applied, blocks critiqued and improved
+## Three-Phase Loading
+1. **Eager** — LCP-critical: sections, blocks, buttons, first section
+2. **Lazy** — Rest of content, header, footer
+3. **Delayed** — Martech, non-essential scripts
 
 ## Known Lint Issues
 - 3 pre-existing `no-descending-specificity` warnings in hero.css, social-feed.css, styles.css (inherited from Slicc generation, cosmetic only)

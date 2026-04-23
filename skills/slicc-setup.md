@@ -71,19 +71,22 @@ For nav and footer:
 
 **Do NOT create or copy preview HTML files (`*-preview.html`). They are Slicc development artifacts and not needed.**
 
-### Step 4: Point head.html to content nav and footer
+### Step 4: Set up root-level nav and footer
 
 The AEM header/footer blocks default to fetching `/nav` and `/footer` (root level).
-Instead of duplicating files to the root, add meta tags to `head.html` so all pages
-resolve nav and footer from the content directory:
+The EDS live environment (`.aem.live`) requires nav and footer to be **CMS-authored documents**
+at the root path — the `.plain.html` API endpoint only works for CMS documents, not static files in git.
 
-Add these lines to `head.html`:
-```html
-<meta name="nav" content="/content/nav">
-<meta name="footer" content="/content/footer">
+For **local development**, copy the files to the project root so the dev server can find them:
+
+```bash
+cp content/nav.plain.html nav.plain.html
+cp content/footer.plain.html footer.plain.html
 ```
 
-Do NOT copy nav/footer to the project root. Keep a single source of truth in `content/`.
+For **production** (da.live or SharePoint), author the nav and footer as CMS documents at `/nav` and `/footer`.
+Do NOT add `<meta name="nav">` or `<meta name="footer">` to `head.html` — the default `/nav` and `/footer` paths
+work correctly on both local dev and production when the documents exist at the root level.
 
 ### Step 5: Verify
 
@@ -98,7 +101,7 @@ Do NOT copy nav/footer to the project root. Keep a single source of truth in `co
 - **Never modify block HTML structure** — Slicc has already styled the blocks; changing structure breaks styling
 - **Only change image paths** — `/drafts/images/` → `/content/images/`
 - **Don't import preview files** — only `index.plain.html`, `nav.plain.html`, and `footer.plain.html` are needed
-- **Use head.html meta tags for nav/footer** — point to `/content/nav` and `/content/footer` instead of copying files to root
+- **Nav/footer at root level** — copy to project root for local dev; author as CMS documents at `/nav` and `/footer` for production
 - **The assembled page becomes `index.plain.html`** — the homepage lives at `content/index.plain.html`
 - **Don't run the full migration workflow** — Slicc already did the block decomposition and styling. Just copy and wire up the content.
 
@@ -109,6 +112,7 @@ Do NOT copy nav/footer to the project root. Keep a single source of truth in `co
 - [ ] content/index.plain.html created from drafts/home.plain.html (paths fixed)
 - [ ] content/nav.plain.html created from drafts/nav.plain.html (paths fixed)
 - [ ] content/footer.plain.html created from drafts/footer.plain.html (paths fixed)
-- [ ] head.html updated with nav/footer meta tags pointing to /content/nav and /content/footer
+- [ ] nav.plain.html at project root (copy of content/nav.plain.html)
+- [ ] footer.plain.html at project root (copy of content/footer.plain.html)
 - [ ] Preview verified — header, blocks, footer all render
 ```

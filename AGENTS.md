@@ -7,35 +7,12 @@
 
 ## Project Overview
 
-This is an **AEM Edge Delivery Services** site for **Grown in Idaho** (https://growninidaho.com/), a Lamb Weston brand for Idaho potato products. Built from `aem-boilerplate`, initialized via Slicc.
-
-See **[PROJECT.md](/workspace/PROJECT.md)** for full project state: blocks, variants, CSS tokens, content pages, and design details.
-
-## Key Technologies
-- Edge Delivery Services (docs: https://www.aem.live/)
-- Vanilla JS (ES6+), no transpiling, no build steps
-- CSS3 with custom properties, no frameworks
-- Node.js tooling
+This is an **AEM Edge Delivery Services** site for **Grown in Idaho** (https://growninidaho.com/). See **[PROJECT.md](/workspace/PROJECT.md)** for full project state: structure, blocks, variants, CSS tokens, content pages, deployment URLs, and design details.
 
 ## Commands
 - `npm install` — install deps
 - `aem up` or `npx -y @adobe/aem-cli up --no-open --forward-browser-logs` — dev server at http://localhost:3000
 - `npm run lint` / `npm run lint:fix` — lint
-
-## Project Structure
-```
-blocks/{name}/{name}.js|css   — Block implementations
-styles/styles.css             — Global styles + CSS tokens (imports brand.css)
-styles/brand.css              — Brand design tokens
-styles/lazy-styles.css        — Post-LCP styles
-styles/fonts.css              — Font definitions
-scripts/aem.js                — Core AEM lib (NEVER MODIFY)
-scripts/scripts.js            — Page decoration entry point
-scripts/delayed.js            — Delayed loading
-content/                      — Content .plain.html files + images
-content/*-preview.html        — Preview pages for dev server
-drafts/                       — Slicc-generated source files
-```
 
 ## Code Style
 - **JS:** ES6+, Airbnb ESLint, `.js` extensions in imports, LF line endings
@@ -49,30 +26,16 @@ drafts/                       — Slicc-generated source files
 - Inspect markup with `curl` before coding; handle optional fields gracefully
 - Each block is self-contained with its own `.js` and `.css`
 
-## Three-Phase Loading
-1. **Eager** — LCP-critical: sections, blocks, buttons, first section
-2. **Lazy** — Rest of content, header, footer
-3. **Delayed** — Martech, non-essential scripts
-
-## Content & Previewing
-- Content lives in `content/` as `.plain.html` files
-- Preview at `http://localhost:3000/content/home-preview` (full page with header/footer)
-- Preview files need `<meta name="nav" content="/content/nav">` and `<meta name="footer" content="/content/footer">`
-- Typekit ID: `eze8bto`
-
 ## Performance & Accessibility
 - Optimize images, lazy-load non-critical resources
 - No unnecessary dependencies; use automatic code splitting via `/blocks/`
 - WCAG 2.1 AA, proper heading hierarchy, alt text on images
-
-## Deployment
-- **Preview:** `https://main--{repo}--{owner}.aem.page/`
-- **Live:** `https://main--{repo}--{owner}.aem.live/`
-- **Branch:** `https://{branch}--{repo}--{owner}.aem.page/`
 - PRs must include a preview URL demonstrating the change
 
 ## Lessons Learned
 <!-- Add entries here as you learn from mistakes -->
 - Slicc projects: content is already structured — don't re-run migration workflows, just wire up content files
 - Slicc setup only needs index.plain.html, nav.plain.html, footer.plain.html + images — don't import preview HTML files
-- Don't duplicate nav/footer to project root — use `<meta name="nav">` and `<meta name="footer">` in head.html to point to content versions
+- NEVER store content files (nav, footer, pages) in the code repo root — content belongs in the CMS, not in git. The `content/` folder is for local dev only.
+- Nav/footer are authored as CMS documents at `/nav` and `/footer` in production (da.live). For local dev, the `content/` folder has copies but they should NOT be duplicated to the project root.
+- NEVER create preview HTML files (`*-preview.html`) — they are unnecessary artifacts

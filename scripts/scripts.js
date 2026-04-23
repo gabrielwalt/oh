@@ -13,6 +13,20 @@ import {
 } from './aem.js';
 
 /**
+ * Returns the content root for the current page so that nav/footer
+ * fragments resolve relative to the page's own directory.
+ * e.g. /content/about → /content, / → ''
+ */
+export function getContentRoot() {
+  const { pathname } = window.location;
+  const segments = pathname.split('/').filter(Boolean);
+  if (segments.length > 1) {
+    return `/${segments.slice(0, -1).join('/')}`;
+  }
+  return '';
+}
+
+/**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
