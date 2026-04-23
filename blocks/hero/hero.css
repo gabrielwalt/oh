@@ -101,22 +101,23 @@ main .hero .button-wrapper {
   margin: 0;
 }
 
-/* Mobile */
+/* Mobile & Tablet — stacked layout: image on top, text below */
 @media (width < 900px) {
   .hero > div > div:last-child {
-    inset: 0;
+    position: static;
     width: 100%;
-    padding: 60px 24px;
-    text-align: center;
+    padding: 32px 24px 48px;
+    text-align: left;
+    background-color: #2b100a;
   }
 
   .hero h1 {
-    font-size: 40px;
+    font-size: 37px;
   }
 
   main .hero a.button.primary:any-link,
   main .hero a.button.secondary:any-link {
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    max-width: 300px;
   }
 }
